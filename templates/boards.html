@@ -1,22 +1,15 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Your Boards</title>
-</head>
-<body>
-  <h1>Your Pinterest Boards</h1>
-  <ul>
+{% extends 'base.html' %}
+{% block title %}Your Boards – BoardView{% endblock %}
+{% block content %}
+  <h2 class="text-2xl mb-4">Your Boards</h2>
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
     {% for board in boards %}
-      <li>
-        <a href="{{ url_for('pins', board_id=board.id) }}">
-          {{ board.name }}
-        </a>
-      </li>
+      <a href="{{ url_for('pins', board_id=board.id) }}"
+         class="block bg-white p-4 rounded-lg shadow hover:shadow-lg">
+        <h3 class="font-semibold">{{ board.name }}</h3>
+      </a>
     {% else %}
-      <li>No boards found.</li>
+      <p>No boards to show.</p>
     {% endfor %}
-  </ul>
-  <footer><a href="{{ url_for('privacy') }}">Privacy Policy</a></footer>
-</body>
-</html>
+  </div>
+{% endblock %}

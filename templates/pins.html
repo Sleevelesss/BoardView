@@ -1,27 +1,18 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Pins on {{ board_id }}</title>
-</head>
-<body>
-  <h1>Pins in Board {{ board_id }}</h1>
-  <ul>
+{% extends 'base.html' %}
+{% block title %}Pins – BoardView{% endblock %}
+{% block content %}
+  <h2 class="text-2xl mb-4">Pins in {{ board_id }}</h2>
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
     {% for pin in pins %}
-      <li>
-        {# Use demo URL if pin.image_url exists, else fall back to the API’s images structure #}
-        {% if pin.image_url %}
-          <img src="{{ pin.image_url }}" alt="{{ pin.note }}" style="max-width:200px;">
-        {% else %}
-          <img src="{{ pin.images['orig']['url'] }}" alt="{{ pin.note }}" style="max-width:200px;">
-        {% endif %}
-        <p>{{ pin.note }}</p>
-      </li>
+      <div class="bg-white rounded-lg overflow-hidden shadow">
+        <img src="{{ pin.image_url or pin.images['orig']['url'] }}"
+             alt="{{ pin.note }}"
+             class="w-full object-cover h-32">
+        <p class="p-2 text-sm">{{ pin.note }}</p>
+      </div>
     {% else %}
-      <li>No pins found.</li>
+      <p>No pins found.</p>
     {% endfor %}
-  </ul>
-  <p><a href="{{ url_for('boards') }}">Back to boards</a></p>
-  <footer><a href="{{ url_for('privacy') }}">Privacy Policy</a></footer>
-</body>
-</html>
+  </div>
+  <p class="mt-6"><a href="{{ url_for('boards') }}" class="hover:underline">&larr; Back to boards</a></p>
+{% endblock %}

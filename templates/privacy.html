@@ -1,13 +1,14 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Privacy Policy</title>
-</head>
-<body>
-  <h1>Privacy Policy</h1>
+{% extends 'base.html' %}
+{% block title %}Privacy Policy – BoardView{% endblock %}
+{% block content %}
+  <h1 class="text-3xl mb-4">Privacy Policy</h1>
   <p>Last updated: June 23, 2025</p>
   <p>BoardView allows you to view your own Pinterest boards and pins. We do not store or share your data; access tokens are kept server-side and purged after 30 days.</p>
-  <footer><a href="{{ url_for('index') }}">Home</a></footer>
-</body>
-</html>
+  <h2 class="text-2xl mt-6">Data We Collect</h2>
+  <ul class="list-disc list-inside">
+    <li><strong>Access Tokens:</strong> Stored server-side only to authenticate API calls. Not shared or sold.</li>
+    <li><strong>User Data:</strong> We fetch your boards and pins from Pinterest only after you authorize the App. We do not store this data persistently.</li>
+  </ul>
+  <h2 class="text-2xl mt-6">Contact</h2>
+  <p>Questions? Reach us at <a href="mailto:you@your-domain.com">you@your-domain.com</a>.</p>
+{% endblock %}
