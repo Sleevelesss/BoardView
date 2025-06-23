@@ -9,7 +9,12 @@
   <ul>
     {% for pin in pins %}
       <li>
-        <img src="{{ pin.image.original.url }}" alt="{{ pin.note }}" style="max-width:200px;">
+        {# Use demo URL if pin.image_url exists, else fall back to the API’s images structure #}
+        {% if pin.image_url %}
+          <img src="{{ pin.image_url }}" alt="{{ pin.note }}" style="max-width:200px;">
+        {% else %}
+          <img src="{{ pin.images['orig']['url'] }}" alt="{{ pin.note }}" style="max-width:200px;">
+        {% endif %}
         <p>{{ pin.note }}</p>
       </li>
     {% else %}
