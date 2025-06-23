@@ -37,7 +37,9 @@ def index():
 @app.route('/login')
 def login():
     if DEMO_MODE:
-        return redirect(url_for('boards'))
+        # Redirect directly to demo pins of the first board
+        first_board = DEMO_BOARDS[0]['id']
+        return redirect(url_for('pins', board_id=first_board))
     auth_params = {
         'response_type': 'code',
         'client_id': CLIENT_ID,
@@ -50,7 +52,9 @@ def login():
 @app.route('/callback')
 def callback():
     if DEMO_MODE:
-        return redirect(url_for('boards'))
+        # After demo redirect, go to demo pins page
+        first_board = DEMO_BOARDS[0]['id']
+        return redirect(url_for('pins', board_id=first_board))
     code = request.args.get('code')
     payload = {'grant_type': 'authorization_code', 'code': code, 'redirect_uri': REDIRECT_URI}
     response = requests.post('https://api.pinterest.com/v5/oauth/token', data=payload, auth=(CLIENT_ID, CLIENT_SECRET))
