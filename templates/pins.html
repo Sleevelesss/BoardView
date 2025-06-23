@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
-{% block title %}Pins – BoardView{% endblock %}
+{% block title %}Pins in {{ board_id }} – BoardView{% endblock %}
 {% block content %}
   <h2 class="text-2xl mb-4">Pins in {{ board_id }}</h2>
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
     {% for pin in pins %}
       <div class="bg-white rounded-lg overflow-hidden shadow">
-        <img src="{{ pin.image_url or pin.images['orig']['url'] }}"
+        <!-- Always use demo image_url for demo mode -->
+        <img src="{{ pin.image_url if demo else pin.image_url or pin.images['orig']['url'] }}"
              alt="{{ pin.note }}"
-             class="w-full object-cover h-32">
+             class="w-full object-cover h-40">
         <p class="p-2 text-sm">{{ pin.note }}</p>
       </div>
     {% else %}
