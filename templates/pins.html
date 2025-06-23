@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Pins on {{ board_id }}</title>
+</head>
+<body>
+  <h1>Pins in Board {{ board_id }}</h1>
+  <ul>
+    {% for pin in pins %}
+      <li>
+        <img src="{{ pin.image.original.url }}" alt="{{ pin.note }}" style="max-width:200px;">
+        <p>{{ pin.note }}</p>
+      </li>
+    {% else %}
+      <li>No pins found.</li>
+    {% endfor %}
+  </ul>
+  <p><a href="{{ url_for('boards') }}">Back to boards</a></p>
+  <footer><a href="{{ url_for('privacy') }}">Privacy Policy</a></footer>
+</body>
+</html>
