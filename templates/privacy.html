@@ -1,16 +1,52 @@
 {% extends 'base.html' %}
 {% block title %}Privacy Policy – BoardView{% endblock %}
 {% block content %}
-  <h1 class="text-3xl mb-4">Privacy Policy</h1>
-  <p>Last updated: June 23, 2025</p>
-  <p>BoardView allows you to view your own Pinterest boards and pins. We do not store or share your data; access tokens are kept server-side and purged after 30 days.</p>
-  <h2 class="text-2xl mt-6">Data We Collect</h2>
-  <ul class="list-disc list-inside">
-    <li><strong>Access Tokens:</strong> Stored server-side only to authenticate API calls. Not shared or sold.</li>
-    <li><strong>User Data:</strong> We fetch your boards and pins from Pinterest only after you authorize the App. We do not store this data persistently.</li>
-	<h2 class="text-2xl mt-6">Security</h2>
-	<li>All data transmissions occur over HTTPS. Access tokens are encrypted at rest and never stored in client-side code or cookies.</li>
-  </ul>
-  <h2 class="text-2xl mt-6">Contact</h2>
-  <p>Questions? Reach us at <a href="mailto:questslayer99@gmail.com">you@your-domain.com</a>.</p>
+  <div class="max-w-3xl mx-auto space-y-6">
+    <h1 class="text-3xl font-bold">Privacy Policy</h1>
+    <p class="text-sm text-gray-600">Last updated: June 23, 2025</p>
+
+    <p>BoardView allows you to view your own Pinterest boards and pins. We do <strong>not</strong> store or share your data; access tokens are kept server-side and automatically purged 30 days after issuance.</p>
+
+    <h2 class="text-2xl font-semibold">Data We Collect</h2>
+    <ul class="list-disc list-inside space-y-2">
+      <li>
+        <strong>Access Tokens</strong><br>
+        Stored server-side only to authenticate API calls. Not shared, sold, or exposed to third parties.
+      </li>
+      <li>
+        <strong>User Data</strong><br>
+        We fetch your boards and pins from Pinterest only after you authorize the app. We do <em>not</em> store this data persistently—data is held in session memory and cleared on logout or session expiry.
+      </li>
+    </ul>
+
+    <h2 class="text-2xl font-semibold">Security</h2>
+    <p>All data transmissions occur over HTTPS. Access tokens are encrypted at rest and never stored in client-side code or cookies.</p>
+
+    <h2 class="text-2xl font-semibold">Use Cases</h2>
+    <ul class="list-disc list-inside space-y-2">
+      <li>
+        <strong>Mobile-Friendly Browsing</strong><br>
+        Quickly scroll through your own boards and pins on any device with a responsive, lightweight UI.
+      </li>
+      <li>
+        <strong>Offline Inspiration</strong><br>
+        Browse and bookmark ideas (recipes, travel, DIY) without navigating Pinterest’s heavier interface.
+      </li>
+      <li>
+        <strong>Content Consolidation</strong><br>
+        Search and filter across all your boards in one place to find specific pins faster.
+      </li>
+      <li>
+        <strong>Safe, Read-Only Access</strong><br>
+        We only request <code>boards:read</code> and <code>pins:read</code> scopes, so no content posting or account changes.
+      </li>
+      <li>
+        <strong>Team Sharing</strong><br>
+        Project your BoardView dashboard in meetings or workshops to share inspiration in real time.
+      </li>
+    </ul>
+
+    <h2 class="text-2xl font-semibold">Contact</h2>
+    <p>If you have any questions or concerns about this policy or your data, please email us at <a href="mailto:questslayer99@gmail.com" class="text-blue-600 hover:underline">you@your-domain.com</a>.</p>
+  </div>
 {% endblock %}
