@@ -1,101 +1,70 @@
 import os
-from flask import Flask, redirect, request, session, url_for, render_template
-import requests
+from flask import Flask, redirect, url_for, render_template, session, request
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET', 'dev-secret')
 
-# Try to load real Pinterest creds…
-CLIENT_ID     = os.environ.get('PINTEREST_CLIENT_ID')
-CLIENT_SECRET = os.environ.get('PINTEREST_CLIENT_SECRET')
-REDIRECT_URI  = os.environ.get('PINTEREST_REDIRECT_URI')
-SCOPE         = 'boards:read pins:read'
+# -- DEMO MODE: always use sample data --
+DEMO_MODE = True
 
-# Detect demo mode if any key creds are missing
-DEMO_MODE = not (CLIENT_ID and CLIENT_SECRET and REDIRECT_URI)
-
-# Sample data for demo mode
+# Sample boards with your attached static images
 DEMO_BOARDS = [
-    {'id': 'demo1', 'name': 'My Favorite Recipes'},
-    {'id': 'demo2', 'name': 'Travel Inspiration'},
+    {
+        'id': 'demo1',
+        'name': 'My Favorite Recipes',
+        'image_url': '/static/recipes.png'
+    },
+    {
+        'id': 'demo2',
+        'name': 'Travel Inspiration',
+        'image_url': '/static/travel.png'
+    },
+]
 
+# Sample pins per board
 DEMO_PINS = {
     'demo1': [
         {'id': 'pin1', 'note': 'Chocolate Cake',
-         'image_url': 'https://i.imgur.com/ChocCake.jpeg'},
+         'image_url': 'https://via.placeholder.com/300x200?text=Chocolate+Cake'},
         {'id': 'pin2', 'note': 'Pasta Salad',
-         'image_url': 'https://i.imgur.com/PastaSalad.jpeg'},
+         'image_url': 'https://via.placeholder.com/300x200?text=Pasta+Salad'},
         {'id': 'pin3', 'note': 'Blueberry Muffins',
-         'image_url': 'https://i.imgur.com/BlueMuffins.jpeg'},
+         'image_url': 'https://via.placeholder.com/300x200?text=Blueberry+Muffins'},
     ],
     'demo2': [
         {'id': 'pin4', 'note': 'Eiffel Tower at Night',
-         'image_url': 'https://i.imgur.com/EiffelNight.jpeg'},
+         'image_url': 'https://via.placeholder.com/300x200?text=Eiffel+Tower'},
         {'id': 'pin5', 'note': 'Santorini Sunset',
-         'image_url': 'https://i.imgur.com/SantoriniSunset.jpeg'},
+         'image_url': 'https://via.placeholder.com/300x200?text=Santorini+Sunset'},
         {'id': 'pin6', 'note': 'Great Wall of China',
-         'image_url': 'https://i.imgur.com/GreatWall.jpeg'},
+         'image_url': 'https://via.placeholder.com/300x200?text=Great+Wall+of+China'},
     ],
 }
 
 @app.route('/')
 def index():
-    return render_template('index.html', demo=DEMO_MODE)
+    return render_template('index.html')
 
 @app.route('/login')
 def login():
-    if DEMO_MODE:
-        # Redirect directly to demo pins of the first board
-        first_board = DEMO_BOARDS[0]['id']
-        return redirect(url_for('pins', board_id=first_board))
-    auth_params = {
-        'response_type': 'code',
-        'client_id': CLIENT_ID,
-        'redirect_uri': REDIRECT_URI,
-        'scope': SCOPE
-    }
-    auth_url = 'https://api.pinterest.com/oauth/' + '?' + '&'.join(f"{k}={v}" for k,v in auth_params.items())
-    return redirect(auth_url)
-
-@app.route('/callback')
-def callback():
-    if DEMO_MODE:
-        # After demo redirect, go to demo pins page
-        first_board = DEMO_BOARDS[0]['id']
-        return redirect(url_for('pins', board_id=first_board))
-    code = request.args.get('code')
-    payload = {'grant_type': 'authorization_code', 'code': code, 'redirect_uri': REDIRECT_URI}
-    response = requests.post('https://api.pinterest.com/v5/oauth/token', data=payload, auth=(CLIENT_ID, CLIENT_SECRET))
-    response.raise_for_status()
-    session['access_token'] = response.json()['access_token']
+    # In demo, skip OAuth and go straight to boards
     return redirect(url_for('boards'))
 
 @app.route('/boards')
 def boards():
-    if DEMO_MODE:
-        boards = DEMO_BOARDS
-    else:
-        headers = {'Authorization': f"Bearer {session.get('access_token')}"}
-        res = requests.get('https://api.pinterest.com/v5/boards', headers=headers)
-        res.raise_for_status()
-        boards = res.json().get('items', [])
-    return render_template('boards.html', boards=boards, demo=DEMO_MODE)
+    # Render our demo boards
+    return render_template('boards.html', boards=DEMO_BOARDS)
 
 @app.route('/boards/<board_id>/pins')
 def pins(board_id):
-    if DEMO_MODE:
-        pins = DEMO_PINS.get(board_id, [])
-    else:
-        headers = {'Authorization': f"Bearer {session.get('access_token')}"}
-        params = {'limit': 50}
-        res = requests.get(f'https://api.pinterest.com/v5/boards/{board_id}/pins', headers=headers, params=params)
-        res.raise_for_status()
-        pins = res.json().get('items', [])
-    return render_template('pins.html', pins=pins, board_id=board_id, demo=DEMO_MODE)
+    # Render demo pins for the chosen board
+    pins = DEMO_PINS.get(board_id, [])
+    return render_template('pins.html', pins=pins, board_id=board_id)
 
 @app.route('/privacy')
 def privacy():
     return render_template('privacy.html')
 
 if __name__ == '__main__':
+    # For local testing
     app.run(debug=True, host='0.0.0.0')
