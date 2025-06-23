@@ -18,15 +18,23 @@ DEMO_MODE = not (CLIENT_ID and CLIENT_SECRET and REDIRECT_URI)
 DEMO_BOARDS = [
     {'id': 'demo1', 'name': 'My Favorite Recipes'},
     {'id': 'demo2', 'name': 'Travel Inspiration'},
-]
+
 DEMO_PINS = {
     'demo1': [
-        {'id': 'pin1', 'note': 'Chocolate Cake', 'image_url': 'https://via.placeholder.com/200'},
-        {'id': 'pin2', 'note': 'Pasta Salad',     'image_url': 'https://via.placeholder.com/200'},
+        {'id': 'pin1', 'note': 'Chocolate Cake',
+         'image_url': 'https://i.imgur.com/ChocCake.jpeg'},
+        {'id': 'pin2', 'note': 'Pasta Salad',
+         'image_url': 'https://i.imgur.com/PastaSalad.jpeg'},
+        {'id': 'pin3', 'note': 'Blueberry Muffins',
+         'image_url': 'https://i.imgur.com/BlueMuffins.jpeg'},
     ],
     'demo2': [
-        {'id': 'pin3', 'note': 'Paris at Night',  'image_url': 'https://via.placeholder.com/200'},
-        {'id': 'pin4', 'note': 'Santorini Sunsets','image_url': 'https://via.placeholder.com/200'},
+        {'id': 'pin4', 'note': 'Eiffel Tower at Night',
+         'image_url': 'https://i.imgur.com/EiffelNight.jpeg'},
+        {'id': 'pin5', 'note': 'Santorini Sunset',
+         'image_url': 'https://i.imgur.com/SantoriniSunset.jpeg'},
+        {'id': 'pin6', 'note': 'Great Wall of China',
+         'image_url': 'https://i.imgur.com/GreatWall.jpeg'},
     ],
 }
 
