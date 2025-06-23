@@ -25,11 +25,11 @@ DEMO_BOARDS = [
 DEMO_PINS = {
     'demo1': [
         {'id': 'pin1', 'note': 'Chocolate Cake',
-         'image_url': 'https://via.placeholder.com/300x200?text=Chocolate+Cake'},
+         'image_url': '/static/cake.png'},
         {'id': 'pin2', 'note': 'Pasta Salad',
-         'image_url': 'https://via.placeholder.com/300x200?text=Pasta+Salad'},
+         'image_url': '/static/pasta.png'},
         {'id': 'pin3', 'note': 'Blueberry Muffins',
-         'image_url': 'https://via.placeholder.com/300x200?text=Blueberry+Muffins'},
+         'image_url': '/static/muffin.png'},
     ],
     'demo2': [
         {'id': 'pin4', 'note': 'Eiffel Tower at Night',
