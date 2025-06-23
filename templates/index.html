@@ -1,13 +1,23 @@
 {% extends 'base.html' %}
-{% block title %}Browse Demo Boards – BoardView{% endblock %}
+{% block title %}Welcome – BoardView{% endblock %}
 {% block content %}
-  <div class="text-center py-16">
+  <div class="max-w-2xl mx-auto py-12 text-center">
+    <!-- App explanation -->
+    <p class="mb-6 text-lg text-gray-700">
+      BoardView is a simple, read-only dashboard that lets you browse your Pinterest boards and pins.
+      We use Pinterest’s official OAuth flow—BoardView never sees or stores your password.
+      <strong>In this demo mode</strong>, we display sample boards and pins so you can preview the interface before you connect your own account.
+    </p>
+
+    <!-- Primary action -->
     <a href="{{ url_for('boards') }}"
        class="inline-block bg-red-500 text-white px-6 py-3 rounded-lg shadow hover:bg-red-600 focus:ring-2 focus:ring-red-400">
       Browse Demo Boards
     </a>
+
+    <!-- OAuth disclaimer -->
     <p class="mt-4 text-sm text-gray-600 max-w-md mx-auto">
-      You’ll be redirected to our sample boards—BoardView never sees or stores your Pinterest password.
+      When you’re ready, connect with Pinterest to view your actual boards and pins.
     </p>
   </div>
 {% endblock %}
