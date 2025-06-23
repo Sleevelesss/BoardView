@@ -7,7 +7,7 @@ app.secret_key = os.environ.get('FLASK_SECRET', 'dev-secret')
 
 # Try to load real Pinterest creds…
 CLIENT_ID     = os.environ.get('PINTEREST_CLIENT_ID')
-CLIENT_SECRET = os.environ.get('PINTERST_CLIENT_SECRET')
+CLIENT_SECRET = os.environ.get('PINTEREST_CLIENT_SECRET')
 REDIRECT_URI  = os.environ.get('PINTEREST_REDIRECT_URI')
 SCOPE         = 'boards:read pins:read'
 
@@ -37,31 +37,23 @@ def index():
 @app.route('/login')
 def login():
     if DEMO_MODE:
-        # Skip OAuth and go straight to boards
         return redirect(url_for('boards'))
-    # Real OAuth flow
     auth_params = {
         'response_type': 'code',
         'client_id': CLIENT_ID,
         'redirect_uri': REDIRECT_URI,
         'scope': SCOPE
     }
-    url = 'https://api.pinterest.com/oauth/' + '?' + '&'.join(f"{k}={v}" for k, v in auth_params.items())
-    return redirect(url)
+    auth_url = 'https://api.pinterest.com/oauth/' + '?' + '&'.join(f"{k}={v}" for k,v in auth_params.items())
+    return redirect(auth_url)
 
 @app.route('/callback')
 def callback():
     if DEMO_MODE:
         return redirect(url_for('boards'))
-    # Real token exchange…
     code = request.args.get('code')
-    payload = {
-        'grant_type': 'authorization_code',
-        'code': code,
-        'redirect_uri': REDIRECT_URI
-    }
-    response = requests.post('https://api.pinterest.com/v5/oauth/token',
-                             data=payload, auth=(CLIENT_ID, CLIENT_SECRET))
+    payload = {'grant_type': 'authorization_code', 'code': code, 'redirect_uri': REDIRECT_URI}
+    response = requests.post('https://api.pinterest.com/v5/oauth/token', data=payload, auth=(CLIENT_ID, CLIENT_SECRET))
     response.raise_for_status()
     session['access_token'] = response.json()['access_token']
     return redirect(url_for('boards'))
@@ -71,7 +63,7 @@ def boards():
     if DEMO_MODE:
         boards = DEMO_BOARDS
     else:
-        headers = {'Authorization': f"Bearer {session['access_token']}"}
+        headers = {'Authorization': f"Bearer {session.get('access_token')}"}
         res = requests.get('https://api.pinterest.com/v5/boards', headers=headers)
         res.raise_for_status()
         boards = res.json().get('items', [])
@@ -82,13 +74,16 @@ def pins(board_id):
     if DEMO_MODE:
         pins = DEMO_PINS.get(board_id, [])
     else:
-        headers = {'Authorization': f"Bearer {session['access_token']}"}
+        headers = {'Authorization': f"Bearer {session.get('access_token')}"}
         params = {'limit': 50}
-        res = requests.get(f'https://api.pinterest.com/v5/boards/{board_id}/pins',
-                           headers=headers, params=params)
+        res = requests.get(f'https://api.pinterest.com/v5/boards/{board_id}/pins', headers=headers, params=params)
         res.raise_for_status()
         pins = res.json().get('items', [])
     return render_template('pins.html', pins=pins, board_id=board_id, demo=DEMO_MODE)
+
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
