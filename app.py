@@ -37,7 +37,7 @@ DEMO_PINS = {
         {'id': 'pin5', 'note': 'Santorini Sunset',
          'image_url': 'santori.png'},
         {'id': 'pin6', 'note': 'Great Wall of China',
-         'image_url': 'https://via.placeholder.com/300x200?text=Great+Wall+of+China'},
+         'image_url': '/static/wall.png'},
     ],
 }
 
