@@ -2,11 +2,17 @@
 {% block title %}Your Boards – BoardView{% endblock %}
 {% block content %}
   <h2 class="text-2xl mb-4">Sample Boards</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
     {% for board in boards %}
       <a href="{{ url_for('pins', board_id=board.id) }}"
-         class="block bg-white p-4 rounded-lg shadow hover:shadow-lg">
-        <h3 class="font-semibold">{{ board.name }}</h3>
+         class="block bg-white rounded-lg shadow hover:shadow-lg overflow-hidden">
+        <!-- Board cover image -->
+        <img src="{{ board.image_url }}"
+             alt="{{ board.name }}"
+             class="w-full h-40 object-cover">
+        <div class="p-4">
+          <h3 class="font-semibold text-lg">{{ board.name }}</h3>
+        </div>
       </a>
     {% else %}
       <p>No boards to display.</p>
