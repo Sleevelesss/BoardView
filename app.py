@@ -1,12 +1,13 @@
 import os
 from flask import Flask, redirect, request, session, url_for, render_template
+import requests
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET', 'dev-secret')
 
 # Try to load real Pinterest creds…
 CLIENT_ID     = os.environ.get('PINTEREST_CLIENT_ID')
-CLIENT_SECRET = os.environ.get('PINTEREST_CLIENT_SECRET')
+CLIENT_SECRET = os.environ.get('PINTERST_CLIENT_SECRET')
 REDIRECT_URI  = os.environ.get('PINTEREST_REDIRECT_URI')
 SCOPE         = 'boards:read pins:read'
 
@@ -88,3 +89,6 @@ def pins(board_id):
         res.raise_for_status()
         pins = res.json().get('items', [])
     return render_template('pins.html', pins=pins, board_id=board_id, demo=DEMO_MODE)
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
