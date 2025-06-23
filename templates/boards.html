@@ -2,11 +2,11 @@
 {% block title %}Your Boards – BoardView{% endblock %}
 {% block content %}
   <h2 class="text-2xl mb-4">Sample Boards</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
     {% for board in boards %}
       <a href="{{ url_for('pins', board_id=board.id) }}"
          class="block bg-white rounded-lg shadow hover:shadow-lg overflow-hidden">
-        <!-- Board cover image -->
+        <!-- Render the demo cover image -->
         <img src="{{ board.image_url }}"
              alt="{{ board.name }}"
              class="w-full h-40 object-cover">
