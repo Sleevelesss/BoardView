@@ -35,7 +35,7 @@ DEMO_PINS = {
         {'id': 'pin4', 'note': 'Eiffel Tower at Night',
          'image_url': '/static/Eiffel.png'},
         {'id': 'pin5', 'note': 'Santorini Sunset',
-         'image_url': 'santori.png'},
+         'image_url': '/static/santori.png'},
         {'id': 'pin6', 'note': 'Great Wall of China',
          'image_url': '/static/wall.png'},
     ],
